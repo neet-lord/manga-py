@@ -33,7 +33,7 @@ However, that feature only works for limited sites supported by the
 original repository. It will take some time to catch up, and while I do
 so, you can view the supported site list at:
 
-- https://github.com/neet-lord/manga-py/addon_docs/meta-json-support.lst
+- https://github.com/neet-lord/manga-py/blob/stable_1.x/addon_docs/meta-json-support.lst
 
 Added options include:
 ----------------------
