@@ -19,6 +19,27 @@ class Std:
         if image is not None and len(image):
             return self.http().normalize_uri(image[0].get(attr))
 
+    def _title_from_content(self, selector) -> str:
+        text_nodes = self._text_nodes_from_selector(selector)
+        return text_nodes[0]
+    
+    def _tags_from_content(self, selector) -> list:
+        return self._text_nodes_from_selector(selector)
+    
+    def _authors_from_content(self, selector) -> list:
+        return self._text_nodes_from_selector(selector)
+
+    def _alternate_names_from_content(self, selector) -> list:
+        return self._text_nodes_from_selector(selector)
+    
+    def _text_nodes_from_selector(self, selector) -> list:
+        _items = self._elements(selector)
+        nodes = list()
+        for _item in _items:
+            nodes.append(_item.text_content())
+        
+        return nodes
+    
     @staticmethod
     def _first_select_options(parser, selector, skip_first=True) -> list:
         options = 'option'

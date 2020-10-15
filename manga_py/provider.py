@@ -1,5 +1,6 @@
 import json
 import re
+import os
 from abc import ABC
 from sys import stderr
 from logging import info, warning, error
@@ -39,6 +40,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     _show_chapter_info = False
     _debug = False
     _override_name = ''
+    _book_meta = None
 
     def __init__(self, info: Info = None):
         super().__init__()
@@ -108,7 +110,30 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         info('User-agent: "%s"' % __ua)
 
+        if self._params.get('with_meta_json', True):
+            self.save_meta()
+        
+        if self._params.get('with_banner', True):
+            self.save_cover_image()
+
         self.loop_chapters()
+    
+    def save_meta(self):
+        book_meta = self.book_meta()
+        self._book_meta = book_meta
+
+        path = self.get_meta_path()[0]
+        
+        directory = os.path.dirname(path)
+
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        
+        pretty_json = json.dumps(book_meta, indent=4)
+
+        file = open(path, 'w+')
+        file.write(pretty_json)
+        file.close()
 
     def _check_archive(self):
         # check
@@ -188,6 +213,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         if not is_file(_path) or file_size(_path) < 32:
             self.http().download_file(_url, _path, idx)
+
         self.after_file_save(_path, idx)
         self._archive.add_file(_path)
 
@@ -195,6 +221,35 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         return _path
 
+    def save_cover_image(self):
+        if self._book_meta is None:
+            book_meta = self.book_meta()
+            self._book_meta = book_meta
+        
+        banner_url = self._book_meta['cover']
+        path = self.get_cover_image_path()[0]
+
+        self.http().download_file(banner_url, path, -1)
+
+    def get_meta_path(self) -> Tuple[str, str]:
+        return (
+            path_join(
+                self._params.get('destination', 'Manga'),
+                self.name,
+                'meta.json'
+            ).replace('?', '_').replace('"', '_').replace('>', '_').replace('<', '_').replace('|', '_')  # Windows...
+            , 'json'
+        )
+
+    def get_cover_image_path(self) -> Tuple[str, str]:
+        return (
+            path_join(
+                self._params.get('destination', 'Manga'),
+                self.name,
+                'cover.jpg'
+            ).replace('?', '_').replace('"', '_').replace('>', '_').replace('<', '_').replace('|', '_')  # Windows...
+            , 'jpg'
+        )
     def get_archive_path(self) -> Tuple[str, str]:
         if self._override_name:
             _path = "{}_{}".format(self._override_name, str(self.normal_arc_name(self.get_chapter_index().split('-'))))

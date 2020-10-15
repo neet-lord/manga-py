@@ -25,6 +25,11 @@ class _Template(Provider, Std):
         String for the name of the manga directory
         """
 
+    def get_manga_title(self) -> str:
+        """
+        String for the title of the manga directory
+        """
+
     def get_chapters(self):
         """
         Should return an array of data (you can return the result of the self._elements ('css selector') method)
@@ -39,20 +44,22 @@ class _Template(Provider, Std):
         return []
 
     def get_cover(self) -> str:
-        """Not used now"""
-        # return self._cover_from_content('.cover img')
+        """
+        Not used in the original repo, but reimplemented in my fork.
+        Get the cover of the comic.
+        """
 
     def book_meta(self) -> dict:
         """
-        Not used now
+        Not used in the original repo, but reimplemented in my fork.
         :see http://acbf.wikia.com/wiki/Meta-data_Section_Definition
         return {
             'author': str,
             'title': str,
-            'annotation': str,
-            'keywords': str,
-            'cover': str,
-            'rating': str,
+            'alternate-names': list,
+            'description': str,
+            'tags': list,
+            'source': url
           }
         """
 
@@ -65,5 +72,21 @@ class _Template(Provider, Std):
         # return self.chapter
         pass
 
+    def get_tags(self) -> list:
+        """
+        Fetch the tags for the manga. This is meant to be used
+        for my webscraper. 
+        """
+
+    def get_authors(self) -> list:
+        """
+        Fetch the authors for the manga.
+        Again, this is meant to be used for web scraping purposes.
+        """
+    
+    def get_alternate_names(self) -> list:
+        """
+        Fetch the alternate names for the manga.
+        """
 
 main = _Template

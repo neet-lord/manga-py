@@ -151,3 +151,22 @@ def _args_downloading(args_parser):  # pragma: no cover
         )
     )
 
+    args.add_argument(
+        '-m',
+        '--with-meta-json',
+        action='store_true',
+        help=(
+            "Store the manga's meta data in a json file."
+            "Only works with specified sites. List of supported "
+            "sites can be found at: https://github.com/neet-lord/manga-py/addon_docs/meta-json-support.rst"
+        )
+    )
+
+    args.add_argument(
+        '-b',
+        '--with-banner',
+        action='store_true',
+        help=(
+            "Download the manga chapters, including the manga's banner."
+        )
+    )

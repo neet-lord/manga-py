@@ -1,11 +1,49 @@
-Manga-py |Travis CI result|
-===================================
+Manga-py |Travis CI result| - NeetLord Fork
+===========================================
 
 Universal assistant download manga.
 '''''''''''''''''''''''''''''''''''
 
 Approximately 200+ providers are available now.
 '''''''''''''''''''''''''''''''''''''''''''''''
+
+This is a fork of the original repository.
+------------------------------------------
+
+The original repository can be found at:
+
+- https://github.com/manga-py/manga-py/
+
+This fork concentrates on gathering meta-data for the manga
+downloaded, rather than just being a simple downloader.
+
+That meta-data includes:
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Banner images.
+2. Authors.
+3. Tags. 
+4. Title.
+5. Description.
+6. Chapter indexing with chapter names.
+
+In addition to the functionalities provided by the original repository,
+it creates a json file that keeps track of the manga's property.
+However, that feature only works for limited sites supported by the
+original repository. It will take some time to catch up, and while I do
+so, you can view the supported site list at:
+
+- https://github.com/neet-lord/manga-py/addon_docs/meta-json-support.lst
+
+Added options include:
+----------------------
+
+.. code:: bash
+
+    # Download manga with a meta.json file that parses it's meta data:
+    manga-py http://manga-url-here/manga-name --with-meta-json
+    # Download manga with the banner image included in the download folder:
+    manga-py http://manga-url-here/manga-name --with-banner
 
 |Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues|
 
